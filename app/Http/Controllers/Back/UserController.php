@@ -30,13 +30,14 @@ class UserController extends Controller
                 ->addColumn("button", function ($user) {
                     if (Auth::user()->id !== $user->id) {
                         return '<div class="">
+                                    <a href="' . url('users/' . $user->id) . '/edit" class="btn btn-outline-primary btn-sm btn-round">Edit</a>
                                     <a href="' . url('users/' . $user->id) . '" class="btn btn-secondary btn-sm btn-round ">Detail</a>
                                     <a href="#" onClick="deleteUser (this)" data-id=" ' . $user->id . '" class="btn btn-outline-danger btn-sm btn-round">Delete</a>
                                     </div>';
                     } else {
                         return '<div class="">
                                     <a href="' . url('users/' . $user->id) . '/edit" class="btn btn-outline-primary btn-sm btn-round">Edit</a>
-                                    <button disabled class="btn btn-secondary btn-sm btn-round disable disable">Detail</button>
+                                    <a href="' . url('users/' . $user->id) . '" class="btn btn-secondary btn-sm btn-round ">Detail</a>
                                     <button disabled class="btn btn-outline-danger btn-sm btn-round" >Delete</button>
                                 </div>';
                     }

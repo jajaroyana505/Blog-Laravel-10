@@ -10,12 +10,28 @@ class Article extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'category_id', 'title', 'slug', 'body', 'img', 'views', 'status', 'tag', 'publish_date'];
+    protected $fillable = [
+        'id',
+        'category_id',
+        'user_id',
+        'title',
+        'slug',
+        'body',
+        'img',
+        'views',
+        'status',
+        'tag',
+        'publish_date'
+    ];
 
     //  relasi ke Categoris
 
     public function Category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+    public function User(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

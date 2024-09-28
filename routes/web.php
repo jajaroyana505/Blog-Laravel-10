@@ -13,6 +13,7 @@ use App\Http\Controllers\back\UserController;
 use App\Http\Controllers\Back\ArticleController;
 use App\Http\Controllers\Back\CategoryController;
 use App\Http\Controllers\Back\DashboardController;
+use App\Http\Controllers\Front\BlogController;
 use App\Models\User;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -28,8 +29,14 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('front/home', [
+        'title' => 'home',
+    ]);
 });
+Route::get('/dashboard', [DashboardController::class, 'index']);
+Route::get('/blogs', [BlogController::class, 'index']);
+Route::get('/blogs/{id}', [BlogController::class, 'show']);
+
 
 
 
@@ -43,16 +50,15 @@ Route::group(['middleware' => 'auth'], function () {});
 // Route middleware spatie
 Route::group(['middleware' => ['role:editor|admin']], function () {
     Route::resource("/articles", ArticleController::class);
-    Route::resource("/categories", CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
 });
 // Route middleware spatie
 Route::group(['middleware' => ['role:admin']], function () {
-    Route::get("/dashboard", [DashboardController::class, 'index']);
+    Route::resource("/categories", CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource("/users", UserController::class);
-    Route::post('/categories', [CategoryApi::class, 'store']);
 });
 Route::group(['middleware' => ['permission:publish articles']], function () {});
 Route::group(['middleware' => ['role_or_permission:publish articles']], function () {});
+
 
 
 

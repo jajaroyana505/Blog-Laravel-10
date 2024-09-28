@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
             $table->foreignId("category_id")->index()->constrained(); //reference atau foreignkey
+            $table->foreignId("user_id")->index()->constrained(); //reference atau foreignkey
             $table->string('title');
             $table->string('slug');
             $table->longText('body');

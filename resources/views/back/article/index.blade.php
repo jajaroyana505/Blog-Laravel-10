@@ -58,6 +58,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Title</th>
+                                <th>Author</th>
                                 <th>Category</th>
                                 <th>Status</th>
                                 <th>Views</th>
@@ -181,6 +182,10 @@
             {
                 data: "title",
                 name: "title",
+            },
+            {
+                data: "author",
+                name: "author",
             },
             {
                 data: "category_id",

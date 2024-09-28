@@ -5,7 +5,7 @@
         <div class="logo-header" data-background-color="dark">
             <a href="index.html" class="logo">
                 <img
-                    src="{{asset('/')}}assets/img/kaiadmin/logo_light.svg"
+                    src="{{asset('/')}}assets/img/logo2.png"
                     alt="navbar brand"
                     class="navbar-brand"
                     height="20" />
@@ -51,6 +51,7 @@
                     </a>
 
                 </li>
+                @role('admin')
                 <li class="nav-item {{ $page == 'category'?'active':'';}}">
                     <a href="{{url('/categories')}}">
                         <i class="fas fa-list"></i>
@@ -65,7 +66,6 @@
                     </span>
                     <h4 class="text-section">User Setting</h4>
                 </li>
-                @role('admin')
                 <li class="nav-item {{ $page == 'user'?'active':'';}}">
                     <a href="{{url('/users')}}">
                         <i class="fas fa-users"></i>
@@ -80,7 +80,6 @@
                         <p>Roles</p>
                     </a>
                 </li>
-                @endrole
 
                 <li class="nav-section">
                     <span class="sidebar-mini-icon">
@@ -88,8 +87,9 @@
                     </span>
                     <h4 class="text-section">PAGE</h4>
                 </li>
+                @endrole
 
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#charts">
                         <i class="far fa-chart-bar"></i>
                         <p>Charts</p>
@@ -174,7 +174,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> -->
             </ul>
         </div>
     </div>

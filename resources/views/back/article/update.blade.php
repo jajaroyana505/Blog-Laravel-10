@@ -151,11 +151,38 @@
 </script>
 
 <script>
-    tinymce.init({
+    var editor_config = {
+        path_absolute: "{{ url('/') }}/",
         selector: '#article-editor',
+        relative_urls: false,
         plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
         toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-    });
+        file_picker_callback: function(callback, value, meta) {
+            var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+            var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+
+            var cmsURL = editor_config.path_absolute + 'laravel-filemanager?editor=' + meta.fieldname;
+            if (meta.filetype === 'image') {
+                cmsURL += "&type=Images";
+            } else {
+                cmsURL += "&type=Files";
+            }
+
+            tinyMCE.activeEditor.windowManager.openUrl({
+                url: cmsURL,
+                title: 'Filemanager',
+                width: x * 0.8,
+                height: y * 0.8,
+                resizable: true,
+                close_previous: false,
+                onMessage: function(api, message) {
+                    callback(message.content);
+                }
+            });
+        }
+    };
+
+    tinymce.init(editor_config);
 </script>
 
 <script>

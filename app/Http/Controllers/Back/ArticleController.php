@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\UpdateArticleRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -24,12 +25,22 @@ class ArticleController extends Controller
     {
         if (request()->ajax()) {
             // response ajax datatable server side
-            $article = Article::with('Category')->latest()->get();
+            $user = Auth::user();
+
+            // cek role
+            if ($user->hasRole('editor')) {
+                $article = Article::with('Category')->where('user_id', $user->id)->latest()->get();
+            } else {
+                $article = Article::with('Category')->latest()->get();
+            }
             return DataTables::of($article)
                 // Custome column
                 ->addIndexColumn()
                 ->addColumn("category_id", function ($article) {
                     return $article->Category->name;
+                })
+                ->addColumn("author", function ($article) {
+                    return $article->User->name;
                 })
                 ->addColumn("status", function ($article) {
                     if ($article->status != 0) {
@@ -46,7 +57,7 @@ class ArticleController extends Controller
                             </div>';
                 })
                 // Panggil costume column
-                ->rawColumns(['category_id', 'status', 'button'])
+                ->rawColumns(['category_id', 'status', 'button', 'author'])
                 ->make();
         }
         return view('back.article.index', [
@@ -78,6 +89,7 @@ class ArticleController extends Controller
         $file->storeAs('public/back/' . $filenName);
 
         $data['img'] = $filenName;
+        $data['user_id'] = Auth::id();
         $data['slug'] = Str::slug($data['title']);
 
         // dd($data);
