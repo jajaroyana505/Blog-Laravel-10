@@ -97,6 +97,8 @@ Blogs
 
 @section('content')
 <main class="container">
+
+    @if ($article !== null)
     <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
         <div class="col px-0">
             <h1 class="display-4 fst-italic">{{ $article->title }}</h1>
@@ -105,6 +107,13 @@ Blogs
             <p class="lead mb-0"><a href="{{ url('blogs/'.$article->id)}}" class="text-body-emphasis fw-bold">Continue reading...</a></p>
         </div>
     </div>
+
+    @else
+    <div class="container-fluid">
+
+    </div>
+
+    @endif
 
     <div class="row mb-2">
         @foreach ($categories as $category)
